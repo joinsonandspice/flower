@@ -306,13 +306,15 @@ Get a task result
         result = AsyncResult(taskid)
         if not self.backend_configured(result):
             raise HTTPError(503)
-        response = {'task-id': taskid, 'state': result.state, 'info': result.info}
+        response = {'task-id': taskid, 'state': result.state}
 
         if timeout:
             result.get(timeout=timeout, propagate=False)
             self.update_response_result(response, result)
         elif result.ready():
             self.update_response_result(response, result)
+        elif isinstance(result.info, dict):
+            response['info'] = result.info
         self.write(response)
 
 
