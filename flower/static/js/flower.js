@@ -141,7 +141,7 @@ var flower = (function () {
         event.stopPropagation();
 
         var workername = $('#workername').text(),
-            grow_size = $('#pool-size option:selected').html();
+            grow_size = $('#pool-size').val();
 
         $.ajax({
             type: 'POST',
@@ -165,7 +165,7 @@ var flower = (function () {
         event.stopPropagation();
 
         var workername = $('#workername').text(),
-            shrink_size = $('#pool-size option:selected').html();
+            shrink_size = $('#pool-size').val();
 
         $.ajax({
             type: 'POST',
@@ -450,11 +450,8 @@ var flower = (function () {
                     var total = api.column(column).data().reduce(sum, 0);
                     var footer = total;
                     if (total !== 0) {
-                        footer = '<a href="/tasks';
-                        if (state !== "") {
-                            footer += '?state=' + state;
-                        }
-                        footer += '">' + total + '</a>';
+                        let queryParams = (state !== '' ? `?state=${state}` : '');
+                        footer = '<a href="' + url_prefix() + '/tasks' + queryParams + '">' + total + '</a>';
                     }
                     $(api.column(column).footer()).html(footer);
                 }
@@ -549,6 +546,7 @@ var flower = (function () {
             colReorder: true,
             lengthMenu: [15, 30, 50, 100],
             pageLength: 15,
+            stateSave: true,
             language: {
                 lengthMenu: 'Show _MENU_ tasks',
                 info: 'Showing _START_ to _END_ of _TOTAL_ tasks',
