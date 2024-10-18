@@ -232,7 +232,7 @@ class RedisSsl(Redis):
 class Broker:
     def __new__(cls, broker_url, *args, **kwargs):
         scheme = urlparse(broker_url).scheme
-        if scheme == 'amqp':
+        if scheme == 'amqp' or scheme == 'amqps':
             return RabbitMQ(broker_url, *args, **kwargs)
         if scheme == 'redis':
             return Redis(broker_url, *args, **kwargs)
