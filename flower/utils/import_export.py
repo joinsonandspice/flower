@@ -3,27 +3,12 @@ from flower.events import EventsState
 
 def export_tasks_and_workers(events_state):
     data = {
-        "tasks": [],
+        "tasks": {},
         "workers": []
     }
 
     for task_id, task in events_state.tasks.items():
-        data["tasks"].append({
-            "id": task_id,
-            "name": task.name,
-            "args": task.args,
-            "kwargs": task.kwargs,
-            "result": task.result,
-            "state": task.state,
-            "received": task.received,
-            "started": task.started,
-            "succeeded": task.succeeded,
-            "failed": task.failed,
-            "retried": task.retried,
-            "retries": task.retries,
-            "worker": task.worker.hostname if task.worker else None,
-            "traceback": task.traceback
-        })
+        data["tasks"][task_id] = task.as_dict()
 
     for worker_name, worker in events_state.workers.items():
         data["workers"].append({
@@ -83,3 +68,5 @@ def import_tasks_and_workers(events_state, data):
         worker.sw_ident = worker_data["sw_ident"]
         worker.sw_ver = worker_data["sw_ver"]
         worker.sw_sys = worker_data["sw_sys"]
+
+        
