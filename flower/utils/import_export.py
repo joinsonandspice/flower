@@ -35,18 +35,14 @@ def import_tasks_and_workers(events_state: EventsState, data):
     for task_data in data["tasks"]:
         task_id = task_data["uuid"]
 
-        if task_id:
-            print(f"Importing task {task_id}")
-        else:
+        if not task_id:
             print("Importing task with no id, skipping")
             continue
 
         (task, is_new) = events_state.get_or_create_task(task_data["uuid"])
         if is_new:
             for field in task._fields:
-                print(f"Setting {field} to {task_data.get(field)}")
                 setattr(task, field, task_data.get(field))
-                print(f"Set {field} to {getattr(task, field)}")
             
 
             if task_data["worker"]:
