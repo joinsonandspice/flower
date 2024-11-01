@@ -9,6 +9,7 @@ def export_tasks_and_workers(events_state):
 
     for task_id, task in events_state.tasks.items():
         data["tasks"][task_id] = task.as_dict()
+        data["tasks"][task_id]['worker'] = task.worker.hostname if task.worker else None
 
     for worker_name, worker in events_state.workers.items():
         data["workers"].append({
