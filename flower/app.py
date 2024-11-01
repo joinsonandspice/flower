@@ -14,6 +14,7 @@ from .urls import handlers as default_handlers
 from .events import Events
 from .inspector import Inspector
 from .options import default_options
+from .utils.import_export import export_tasks_and_workers, import_tasks_and_workers
 
 
 logger = logging.getLogger(__name__)
@@ -101,3 +102,9 @@ class Flower(tornado.web.Application):
 
     def update_workers(self, workername=None):
         return self.inspector.inspect(workername)
+
+    def export_state(self):
+        return export_tasks_and_workers(self.events.state)
+
+    def import_state(self, data):
+        import_tasks_and_workers(self.events.state, data)
