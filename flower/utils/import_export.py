@@ -32,8 +32,10 @@ def import_tasks_and_workers(events_state, data):
     # data = json.loads(data)
 
     for task_data in data["tasks"]:
+        print(f"Importing task {task_data.get('id')}")
         task = events_state.tasks.get(task_data["id"])
         if not task:
+            print("Creating new task")
             task = events_state.Task()
             events_state.tasks[task_data["id"]] = task
 
@@ -69,4 +71,3 @@ def import_tasks_and_workers(events_state, data):
         worker.sw_ver = worker_data["sw_ver"]
         worker.sw_sys = worker_data["sw_sys"]
 
-        
