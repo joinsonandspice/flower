@@ -44,7 +44,7 @@ def export_tasks_and_workers(events_state):
     return json.dumps(data)
 
 def import_tasks_and_workers(events_state, data):
-    data = json.loads(data)
+    # data = json.loads(data)
 
     for task_data in data["tasks"]:
         task = events_state.tasks.get(task_data["id"])
