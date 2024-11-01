@@ -9,6 +9,7 @@ from .views.broker import BrokerView
 from .views.error import NotFoundErrorHandler
 from .views.tasks import TasksDataTable, TasksView, TaskView
 from .views.workers import WorkersView, WorkerView
+from .api.import_export import ExportHandler, ImportHandler
 
 settings = dict(
     template_path=os.path.join(os.path.dirname(__file__), "templates"),
@@ -51,6 +52,9 @@ handlers = [
     (r"/api/task/timeout/(.+)", control.TaskTimout),
     (r"/api/task/rate-limit/(.+)", control.TaskRateLimit),
     (r"/api/task/revoke/(.+)", control.TaskRevoke),
+    # Import/Export API
+    (r"/api/import", ImportHandler),
+    (r"/api/export", ExportHandler),
     # Metrics
     (r"/metrics", monitor.Metrics),
     (r"/healthcheck", monitor.Healthcheck),
